@@ -1,24 +1,20 @@
-// Background script --> sample code from Shiffman
+chrome.webNavigation.onCompleted.addListener(function () {
 
-// A listener for when the user clicks on the extension button
-// chrome.browserAction.onClicked.addListener(buttonClicked);
+  chrome.history.search({
+    text: '',
+    maxResults: 20
+  }, function (data) {
+    console.log(data);
 
-// // Handle that click
-// function buttonClicked(tab) {
-//     // Send a message to the active tab
-//     console.log("button clicked!");
-
-//     // Send a message to the tab that is open when button was clicked
-//     chrome.tabs.sendMessage(tab.id, {
-//         "message": "browser action"
-//     });
-// }
-
-// // Listening for messages
-// chrome.runtime.onMessage.addListener(receiver);
-
-// function receiver(request, sender, sendResponse) {
-//     if (request.message === "thank you") {
-//         // Not doing anything for messages received but I could!
-//     }
-// }
+    chrome.browserAction.onClicked.addListener(function (tab) {
+      var tabId = tab.id;
+      console.log('clicked browserAction in tab id: ', tabId);
+      var message = data;
+      chrome.tabs.sendMessage(tabId, message);
+    });
+  });
+}, {
+  url: [{
+    urlMatches: 'https://www.nytimes.com/'
+  }]
+});
