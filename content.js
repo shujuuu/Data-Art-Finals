@@ -1,7 +1,7 @@
 // alert("hello world");
 chrome.runtime.onMessage.addListener(
   function (message, sender, sendResponse) {
-    console.log(message);
+    // console.log(message);
     // console.log("sent from tab.id=", sender.tab.id);
 
     function milliConv(milli) {
@@ -22,23 +22,37 @@ chrome.runtime.onMessage.addListener(
       }
     }
 
-    let nytHead = document.getElementsByClassName('balancedHeadline');
-    let nytTitle1 = document.getElementsByClassName('css-1qwxefa esl82me0');
-    let nytTitle2 = document.getElementsByClassName('css-n2blzn esl82me0');
-    let nytTitle3 = document.getElementsByClassName('css-1w0yruz esl82me0');
-    let nytTitle4 = document.getElementsByClassName('css-n2blzn esl82me0');
-    let nytTitle5 = document.getElementsByClassName('css-1ez5fsm esl82me1');
-    let nytTitle6 = document.getElementsByClassName('css-n2blzn esl82me0');
-    let nytPar = document.getElementsByClassName('css-1pfq5u e1n8kpyg0');
+    // let h2 = document.getElementsByTagName('h2');
+    let titles1 = document.querySelectorAll('h2.css-km70tz.esl82me0');
+    let titles2 = document.querySelectorAll('h2.css-1qwxefa.esl82me0');
+    let titles3 = document.querySelectorAll('h2.css-14bttnj.esl82me0');
+    let titles4 = document.querySelectorAll('h2.css-n2blzn.esl82me0');
+    let titles5 = document.querySelectorAll('h2.css-o2lisy.esl82me0');
+    let titles6 = document.querySelectorAll('h2.css-1m5bs2v.esl82me0');
+    let titles7 = document.querySelectorAll('h2.css-n2blzn.esl82me0');
+    let titles8 = document.querySelectorAll('span.balancedHeadline');
 
-    let titleArr = [];
+    let browserHistoryArr = [];
+    let placeHolderArr = [];
     let outline;
+
+    titles1.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles2.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles3.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles4.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles5.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles6.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles7.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    titles8.forEach(titleHolder => placeHolderArr.push(titleHolder));
+    // console.log(placeHolderArr);
+
     message.forEach(function (page, i) {
       outline = {
         "Page Title": page.title,
         "Page URL": page.url,
         "Last Visit": milliConv(Date.now() - page.lastVisitTime)
       }
+      browserHistoryArr.push(page.title);
       // console.log(i);
       // console.log(page.title);
       // console.log(page.url);
@@ -47,28 +61,13 @@ chrome.runtime.onMessage.addListener(
       // console.log(Date.now() - page.lastVisitTime);
       // console.log(milliConv(Date.now() - page.lastVisitTime));
 
-      console.log(outline);
+      // console.log(outline);
     });
-    let user = "Shuju Seached For "
-    nytHead[0].innerHTML = user + message[0].title;
-    nytTitle1[0].innerHTML = user + message[1].title;
-    nytTitle1[1].innerHTML = user + message[2].title;
-    nytTitle1[2].innerHTML = user + message[3].title;
-    nytTitle2[0].innerHTML = user + message[4].title;
-    nytTitle2[1].innerHTML = user + message[5].title;
-    nytTitle2[2].innerHTML = user + message[6].title;
-    nytTitle3[0].innerHTML = user + message[7].title;
-    nytTitle3[1].innerHTML = user + message[8].title;
-    nytTitle3[2].innerHTML = user + message[9].title;
-    nytTitle3[3].innerHTML = user + message[10].title;
-    nytTitle3[4].innerHTML = user + message[11].title;
-    nytTitle4[3].innerHTML = user + message[12].title;
-    nytTitle4[2].innerHTML = user + message[13].title;
-    nytTitle4[1].innerHTML = user + message[14].title;
-    nytTitle5[1].innerHTML = user + message[15].title;
-    nytTitle5[0].innerHTML = user + message[16].title;
-    nytTitle6[0].innerHTML = user + message[17].title;
-    nytTitle6[1].innerHTML = user + message[18].title;
-    nytTitle6[2].innerHTML = user + message[19].title;
-    nytTitle6[3].innerHTML = user + message[20].title;
+    console.log(browserHistoryArr);
+    // placeHolderArr.forEach(function (holder) {
+    //   holder.innerHTML = browserHistoryArr;
+    // })
+    for (let i = 0; i < placeHolderArr.length; i++) {
+      placeHolderArr[i].innerHTML = "Shuju Checked " + browserHistoryArr[i];
+    }
   });
